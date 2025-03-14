@@ -1,6 +1,0 @@
-﻿@using System.Security.Claims;
-@if (User.Identity.IsAuthenticated)
-{
-    <p>Username: @User.Identity.Name</p>
-    <p>Role: @User.FindFirst(ClaimTypes.Role)?.Value</p>
-}
