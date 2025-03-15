@@ -121,6 +121,29 @@ namespace DataAccessIntegrationTest.RepositoryTest
             Assert.AreEqual(ent3.Name, "entity3");
         }
         [Test]
+        public async Task GetByFalseIdTest()
+        {
+            //Arrange
+            var context = new RepositoryTestContext();
+            var repository = Substitute.ForPartsOf<Repository<TestEntity>>(context);
+            TestEntity[] data = new TestEntity[]
+            {
+                new TestEntity()
+                {
+                    Name = "entity1"
+                }
+            };
+            //Act
+            foreach (var dataItem in data)
+            {
+                context.Entities.Add(dataItem);
+            }
+            context.SaveChanges();
+            var ent17 = await repository.GetById(17);
+            //Assert
+            Assert.IsNull(ent17);
+        }
+        [Test]
         public async Task DeleteTest()
         {
             //Arrange
@@ -157,6 +180,28 @@ namespace DataAccessIntegrationTest.RepositoryTest
             Assert.IsNull(ent1);
             Assert.AreEqual(ent2.Name, "entity2");
             Assert.IsNull(ent3);
+        }
+        [Test]
+        public async Task DeleteByUnexistedIdTest()
+        {
+            //Arrange
+            var context = new RepositoryTestContext();
+            var repository = Substitute.ForPartsOf<Repository<TestEntity>>(context);
+            TestEntity[] data = new TestEntity[]
+            {
+                new TestEntity()
+                {
+                    Name = "entity1"
+                }
+            };
+            //Act
+            foreach (var dataItem in data)
+            {
+                context.Entities.Add(dataItem);
+            }
+            context.SaveChanges();
+            //Assert
+            Assert.ThrowsAsync<ArgumentException>(async () => await repository.Delete(17));
         }
         [Test]
         public async Task UpdateTest()

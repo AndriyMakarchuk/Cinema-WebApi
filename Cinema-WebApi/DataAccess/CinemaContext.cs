@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DataAccess.Entities.MovieInformation;
 using DataAccess.Configurations.MovieInformationConfigurations;
 using DataAccess.Extencions.Data;
+using System.Reflection.Emit;
 
 namespace DataAccess
 {
@@ -40,13 +41,16 @@ namespace DataAccess
             modelBuilder.ApplyConfiguration(new ActorConfiguration());
             modelBuilder.ApplyConfiguration(new MovieActorConfiguration());
             modelBuilder.ApplyConfiguration(new MovieConfiguration());
-            modelBuilder.SeedGenreList();
             modelBuilder.ApplyConfiguration(new CinemaHallConfiguration());
             modelBuilder.ApplyConfiguration(new SessionConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-
-            modelBuilder.SeedMovieList();
+            SeedData(modelBuilder);
         }
+        protected virtual void SeedData(ModelBuilder modelBuilder)
+        {
+            modelBuilder.SeedGenreList();
+            modelBuilder.SeedMovieList();
 
+        }
     }
 }
